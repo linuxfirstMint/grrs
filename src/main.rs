@@ -1,3 +1,4 @@
+use std::path::PathBuf;
 use structopt::StructOpt;
 #[derive(StructOpt)]
 struct Cli {
