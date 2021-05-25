@@ -1,3 +1,6 @@
+use std::fs::File;
+use std::io::prelude::*;
+use std::io::BufReader;
 use std::path::PathBuf;
 use structopt::StructOpt;
 
@@ -13,7 +16,8 @@ struct Cli {
 
 fn main() {
     let args = Cli::from_args();
-    let content = std::fs::read_to_string(&args.path).expect("could not read file");
+    let f = File::open(&args.path).expect("could not read file");
+    let content = BufReader::new(f);
     for line in content.lines() {
         if line.contains(&args.pattern) {
             println!("{:?}", &line);
