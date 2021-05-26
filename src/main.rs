@@ -19,8 +19,9 @@ fn main() {
     let f = File::open(&args.path).expect("could not read file");
     let content = BufReader::new(f);
     for line in content.lines() {
-        if line.contains(&args.pattern) {
-            println!("{:?}", &line);
+        let s = line.unwrap();
+        if s.contains(&args.pattern) {
+            println!("{:?}", s);
         }
     }
 }
