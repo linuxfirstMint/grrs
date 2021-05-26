@@ -1,3 +1,4 @@
+use anyhow::{Context, Result};
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
@@ -14,9 +15,10 @@ struct Cli {
     path: PathBuf,
 }
 
-fn main() {
+fn main() -> Result<()> {
     let args = Cli::from_args();
-    let f = File::open(&args.path).expect("could not read file");
+    let f = File::open(&args.path)
+        .with_context(|| format!("could not read file `{:?}`", &args.path))?;
     let content = BufReader::new(f);
     for line in content.lines() {
         let s = line.unwrap();
@@ -24,4 +26,5 @@ fn main() {
             println!("{:?}", s);
         }
     }
+    Ok(())
 }
